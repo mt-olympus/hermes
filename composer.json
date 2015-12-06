@@ -1,0 +1,40 @@
+{
+  "name" : "mt-olympus/hermes",
+  "description" : "REST API Client using Hal",
+  "require" : {
+    "php" : "^5.5|^7.0",
+    "ext-json" : "*",
+    "ext-mbstring" : "*",
+    "nocarrier/hal" : "~0.9",
+    "mt-olympus/cerberus" : "dev-master",
+    "zendframework/zend-modulemanager" : "~2.5",
+    "zendframework/zend-http" : "~2.4",
+    "zendframework/zend-servicemanager" : "~2.5"
+  },
+  "require-dev" : {
+    "satooshi/php-coveralls" : "dev-master",
+    "squizlabs/php_codesniffer" : "^2.3",
+    "phpunit/phpunit" : "~4.8"
+  },
+  "license" : "MIT",
+  "keywords" : [ "api", "rest", "client", "zf2", "hal" ],
+  "autoload" : {
+    "psr-4" : {
+      "Hermes\\" : "src/"
+    },
+    "classmap" : [ "./" ]
+  },
+  "suggest" : {
+    "los/losbase" : "los/losbase for some abstract classes to speed development ",
+    "los/loslog" : "los/loslog for logging"
+  },
+  "type" : "library",
+  "config" : {
+    "process-timeout" : 5000
+  },
+  "homepage" : "https://github.com/mt-olympus/Hermes",
+  "authors" : [ {
+    "name" : "Leandro Silva",
+    "email" : "leandro@leandrosilva.info"
+  } ]
+}
