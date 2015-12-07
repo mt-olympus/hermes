@@ -59,7 +59,7 @@ $httpClient = new Zend\Http\Client('http://127.0.0.1', []);
 $client = new Hermes\Apt\Client($httpClient, 10);
 ```
 
-## Injecting a Cerberus Circuit Breaker
+### Injecting a Cerberus Circuit Breaker
 You can use the client with a circuit breaker to control failures and success and avoid uncessary attempts. 
 
 More information about cerberus on it's [own repository](https://github.com/mt-olympus/cerberus).
@@ -165,3 +165,25 @@ do {
     $page++;
 } while ($ret->getPaginator()->hasMorePages());
 ```
+
+You can use the Paginator with a Zend Framework 2 application:
+```php
+$page = $this->getRequest()->getQuery('page', 1);
+$sort = $this->getRequest()->getQuery('sort', 'name');
+$order = $this->getRequest()->getQuery('order', 'asc');
+
+$paginator = new \Zend\Paginator\Paginator(new \Hermes\Paginator\ApiPaginator($client, $url, 'album', [
+    'page'=>$page,
+    'sort'=>$sort,
+    'order' => $order,
+]));
+$paginator->setDefaultItemCountPerPage(25);
+$paginator->setCurrentPageNumber($page);
+$paginator->setPageRange($this->paginatorRange);
+```
+
+### Events
+
+The client triggers an event before (request.pre) and after (request.post) a request and you can attach to them.
+More info about events on [zend-eventmanager](https://github.com/zendframework/zend-eventmanager).
+

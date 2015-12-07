@@ -7,9 +7,12 @@ use Zend\Http\Exception\RuntimeException as ZendHttpRuntimeException;
 use Cerberus\CerberusInterface;
 use Hermes\Exception\NotAvailableException;
 use Hermes\Exception\RuntimeException;
+use Zend\EventManager\EventManagerAwareTrait;
 
 final class Client
 {
+    use EventManagerAwareTrait;
+
     /**
      * @const int Request timeout
      */
@@ -118,6 +121,8 @@ final class Client
 
         $this->zendClient->getRequest()->getHeaders()->addHeaders($headers);
 
+        $this->getEventManager()->trigger('request.pre', $this);
+
         try {
             $zendHttpResponse = $this->zendClient->send();
 
@@ -128,8 +133,11 @@ final class Client
             throw new RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         } catch (\Exception $ex) {
             $this->reportFailure();
-            throw new RuntimeException($ex->getCode(), 500, $ex);
+            throw new RuntimeException($ex->getMessage(), 500, $ex);
         }
+
+        $this->getEventManager()->trigger('request.post', $this);
+
         $content = $response->getContent();
 
         return $content;

@@ -9,7 +9,8 @@
     "mt-olympus/cerberus" : "~1.0",
     "zendframework/zend-modulemanager" : "~2.5",
     "zendframework/zend-http" : "~2.4",
-    "zendframework/zend-servicemanager" : "~2.5"
+    "zendframework/zend-servicemanager" : "~2.5",
+    "zendframework/zend-eventmanager" : "~2.5"
   },
   "require-dev" : {
     "satooshi/php-coveralls" : "dev-master",
