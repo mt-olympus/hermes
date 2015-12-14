@@ -32,35 +32,19 @@ final class Client
 
     private $circuitBreaker;
 
+    private $loadBalance;
+
     private $serviceName;
 
     public function __construct(
         ZendHttpClient $client = null,
-        $depth = 0,
-        CerberusInterface $circuitBreaker = null,
-        $serviceName = null
+        $serviceName = null,
+        $depth = 0
     ) {
         $client = ($client instanceof ZendHttpClient) ? $client : new ZendHttpClient();
-
-        $this->setZendClient($client);
-
-        $this->depth = (int) $depth;
-
-        $this->circuitBreaker = $circuitBreaker;
-        $this->serviceName = $serviceName;
-    }
-
-    public function setZendClient(ZendHttpClient $client)
-    {
-        $host = $client->getUri()->getHost();
-
-        if (empty($host)) {
-            throw new ZendHttpRuntimeException('Undefined Host!');
-        }
-
         $this->zendClient = $client;
-
-        return $this;
+        $this->serviceName = $serviceName;
+        $this->depth = (int) $depth;
     }
 
     /**
@@ -80,11 +64,15 @@ final class Client
 
     private function isAvailable()
     {
-        if ($this->circuitBreaker === null) {
-            return true;
+        if ($this->circuitBreaker !== null) {
+            return $this->circuitBreaker->isAvailable($this->serviceName);
         }
 
-        return $this->circuitBreaker->isAvailable($this->serviceName);
+        if ($this->loadBalance !== null) {
+            return $this->loadBalance;
+        }
+
+        return true;
     }
 
     private function reportFailure()
@@ -115,6 +103,11 @@ final class Client
     {
         if (!$this->isAvailable()) {
             throw new NotAvailableException('Service not available.');
+        }
+
+        if ($this->loadBalance !== null) {
+            $uri = $this->loadBalance->getUri($this->serviceName);
+            $this->zendClient->setUri($uri);
         }
 
         $this->zendClient->getUri()->setPath($path);
@@ -205,4 +198,28 @@ final class Client
 
         return $this;
     }
+
+    public function getLoadBalance()
+    {
+        return $this->loadBalance;
+    }
+
+    public function setLoadBalance($loadBalance)
+    {
+        $this->loadBalance = $loadBalance;
+        return $this;
+    }
+
+    public function getServiceName()
+    {
+        return $this->serviceName;
+    }
+
+    public function setServiceName($serviceName)
+    {
+        $this->serviceName = $serviceName;
+        return $this;
+    }
+
+
 }
