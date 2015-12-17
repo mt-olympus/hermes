@@ -46,6 +46,13 @@ final class Response
                 $error->detail = '';
             }
 
+            if (!isset($error->status)) {
+                $error->status = 500;
+            }
+            if (!isset($error->detail)) {
+                $error->detail = 'An error occurred.';
+            }
+
             throw new RuntimeException($error->detail, $error->status);
         }
 
