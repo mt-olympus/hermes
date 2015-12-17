@@ -38,7 +38,6 @@ final class Response
 
         if (!$this->httpResponse->isSuccess()) {
             $error = json_decode($this->httpResponse->getBody());
-            var_dump($error);
             if (empty($error)) {
                 $error = new \stdClass();
                 $error->status = $this->httpResponse->getStatusCode();
