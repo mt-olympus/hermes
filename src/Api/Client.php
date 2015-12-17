@@ -39,7 +39,7 @@ final class Client
     public function __construct(
         ZendHttpClient $client = null,
         $serviceName = null,
-        $depth = 0
+        $depth = 1
     ) {
         $client = ($client instanceof ZendHttpClient) ? $client : new ZendHttpClient();
         $this->zendClient = $client;

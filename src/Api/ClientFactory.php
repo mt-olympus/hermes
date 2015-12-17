@@ -18,6 +18,6 @@ class ClientFactory implements FactoryInterface
         $client = new \Zend\Http\Client($clientConfig['uri'], $clientConfig['http_client']['options']);
         $client->getRequest()->getHeaders()->addHeaders($clientConfig['headers']);
 
-        return new Client($client, $clientConfig['depth']);
+        return new Client($client, @$clientConfig['service_name'] ?: null, $clientConfig['depth']);
     }
 }
