@@ -187,3 +187,13 @@ $paginator->setPageRange($this->paginatorRange);
 The client triggers an event before (request.pre) and after (request.post) a request and you can attach to them.
 More info about events on [zend-eventmanager](https://github.com/zendframework/zend-eventmanager).
 
+### Request Id
+
+The client automatically adds a X-Request-Id to each request, but only if there is no previous X-Request-Id added.
+
+You can force a new id with:
+```php
+$client = $this->getServiceLocator()->get('hermes');
+$client->addRequestId(); // Auto generared
+$client->addRequestId('123abc');
+```

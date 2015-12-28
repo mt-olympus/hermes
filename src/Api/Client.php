@@ -114,6 +114,10 @@ final class Client
 
         $this->zendClient->getRequest()->getHeaders()->addHeaders($headers);
 
+        if (!$this->zendClient->getRequest()->getHeaders()->has('X-Request-Id')) {
+            $this->addRequestId();
+        }
+
         $this->getEventManager()->trigger('request.pre', $this);
 
         try {
@@ -134,6 +138,20 @@ final class Client
         $content = $response->getContent();
 
         return $content;
+    }
+
+    public function addRequestId($id = null) {
+        if ($id == null) {
+            $id = \Ramsey\Uuid\Uuid::uuid4();
+        }
+
+        $headers = $this->zendClient->getRequest()->getHeaders();
+        if ($headers->has('X-Request-Id')) {
+            $headers->removeHeader($headers->get('X-Request-Id'));
+        }
+        $headers->addHeaderLine('X-Request-Id', $id);
+
+        return $this;
     }
 
     public function get($path, array $data = [], array $headers = [])
