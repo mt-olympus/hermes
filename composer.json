@@ -11,7 +11,7 @@
     "zendframework/zend-http" : "~2.4",
     "zendframework/zend-servicemanager" : "~2.5",
     "zendframework/zend-eventmanager" : "~2.5",
-    "ramsey/uuid" : "~2.8"
+    "ramsey/uuid" : "~3.0"
   },
   "require-dev" : {
     "satooshi/php-coveralls" : "dev-master",
