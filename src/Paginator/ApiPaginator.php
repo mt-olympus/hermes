@@ -33,7 +33,9 @@ class ApiPaginator implements AdapterInterface
             $ret = $this->client->get($this->url,$this->query);
             $this->data = $ret->getData();
         }
-
+        if (!isset($this->data[$this->collectionName])) {
+            return [];
+        }
         return $this->data[$this->collectionName];
     }
     /**
@@ -45,6 +47,9 @@ class ApiPaginator implements AdapterInterface
         if ($this->data == null) {
             $ret = $this->client->get($this->url,$this->query);
             $this->data = $ret->getData();
+        }
+        if (!isset($this->data['total_items'])) {
+            return 0;
         }
         return $this->data['total_items'];
     }
