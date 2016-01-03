@@ -36,6 +36,8 @@ final class Client
 
     private $serviceName;
 
+    private $responseTime = 0;
+
     public function __construct(
         ZendHttpClient $client = null,
         $serviceName = null,
@@ -120,8 +122,14 @@ final class Client
 
         $this->getEventManager()->trigger('request.pre', $this);
 
+        $this->responseTime = 0;
+
         try {
+            $requestTime = microtime(true);
+
             $zendHttpResponse = $this->zendClient->send();
+
+            $this->responseTime = (microtime(true) - $requestTime) * 1000;
 
             $response = new Response($this->zendClient, $zendHttpResponse, $this->depth);
             $this->reportSuccess();
@@ -239,5 +247,9 @@ final class Client
         return $this;
     }
 
+    public function getResponseTime()
+    {
+        return $this->responseTime;
+    }
 
 }
