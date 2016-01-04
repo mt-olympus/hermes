@@ -111,7 +111,9 @@ final class Client
             $uri = $this->loadBalance->getUri($this->serviceName);
             $this->zendClient->setUri($uri);
         }
-
+        if (strlen($path) > 0 && $path[0] === '@') {
+            $path = $this->zendClient->getUri()->getPath() . substr($path, 1);
+        }
         $this->zendClient->getUri()->setPath($path);
 
         $this->zendClient->getRequest()->getHeaders()->addHeaders($headers);
