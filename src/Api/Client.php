@@ -38,6 +38,8 @@ final class Client
 
     private $responseTime = 0;
 
+    private $appendPath = false;
+
     public function __construct(
         ZendHttpClient $client = null,
         $serviceName = null,
@@ -111,8 +113,8 @@ final class Client
             $uri = $this->loadBalance->getUri($this->serviceName);
             $this->zendClient->setUri($uri);
         }
-        if (strlen($path) > 0 && $path[0] === '@') {
-            $path = $this->zendClient->getUri()->getPath() . substr($path, 1);
+        if ($this->appendPath && strlen($path) > 0 && $this->zendClient->getUri()->getPath() != '/') {
+            $path = $this->zendClient->getUri()->getPath() . $path;
         }
         $this->zendClient->getUri()->setPath($path);
 
@@ -253,5 +255,12 @@ final class Client
     {
         return $this->responseTime;
     }
+
+    public function setAppendPath($appendPath)
+    {
+        $this->appendPath = (bool) $appendPath;
+        return $this;
+    }
+
 
 }
