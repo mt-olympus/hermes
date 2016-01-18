@@ -166,6 +166,22 @@ final class Client
         return $this;
     }
 
+    public function importRequestId($request)
+    {
+        if (!is_object($request) || !method_exists($request, 'getHeader')) {
+            return;
+        }
+        $header = $request->getHeader('X-Request-Id');
+        if (!$header) {
+            return;
+        }
+        if (is_object($header)) {
+            $this->addRequestId($header->getFieldValue());
+        } else {
+            $this->addRequestId($header[0]);
+        }
+    }
+
     public function get($path, array $data = [], array $headers = [])
     {
         $this->zendClient->setMethod('GET')
