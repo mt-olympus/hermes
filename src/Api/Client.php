@@ -2,12 +2,12 @@
 
 namespace Hermes\Api;
 
-use Zend\Http\Client as ZendHttpClient;
-use Zend\Http\Exception\RuntimeException as ZendHttpRuntimeException;
 use Cerberus\CerberusInterface;
 use Hermes\Exception\NotAvailableException;
 use Hermes\Exception\RuntimeException;
 use Zend\EventManager\EventManagerAwareTrait;
+use Zend\Http\Client as ZendHttpClient;
+use Ramsey\Uuid\Uuid;
 
 final class Client
 {
@@ -124,6 +124,8 @@ final class Client
             $this->addRequestId();
         }
 
+        $this->addRequestName($this->serviceName);
+
         $this->getEventManager()->trigger('request.pre', $this);
 
         $this->responseTime = 0;
@@ -133,15 +135,19 @@ final class Client
 
             $zendHttpResponse = $this->zendClient->send();
 
-            $this->responseTime = (microtime(true) - $requestTime) * 1000;
+            $this->responseTime = (float) sprintf('%.2f', (microtime(true) - $requestTime) * 1000);
+
+            $this->addRequestTime($this->responseTime);
 
             $response = new Response($this->zendClient, $zendHttpResponse, $this->depth);
             $this->reportSuccess();
         } catch (RuntimeException $ex) {
             $this->reportFailure();
+            $this->getEventManager()->trigger('request.fail', $this, $ex);
             throw new RuntimeException($ex->getMessage(), $ex->getCode(), $ex);
         } catch (\Exception $ex) {
             $this->reportFailure();
+            $this->getEventManager()->trigger('request.fail', $this, $ex);
             throw new RuntimeException($ex->getMessage(), 500, $ex);
         }
 
@@ -154,7 +160,7 @@ final class Client
 
     public function addRequestId($id = null) {
         if ($id == null) {
-            $id = \Ramsey\Uuid\Uuid::uuid4();
+            $id = Uuid::uuid4();
         }
 
         $headers = $this->zendClient->getRequest()->getHeaders();
@@ -180,6 +186,29 @@ final class Client
         } else {
             $this->addRequestId($header[0]);
         }
+    }
+
+    public function addRequestTime($time) {
+        $headers = $this->zendClient->getRequest()->getHeaders();
+        if ($headers->has('X-Request-Time')) {
+            return;
+        }
+        $headers->addHeaderLine('X-Request-Time', sprintf('%2.2fms', $time));
+
+        return $this;
+    }
+
+    public function addRequestName($name = null) {
+        if (empty($name)) {
+            return;
+        }
+        $headers = $this->zendClient->getRequest()->getHeaders();
+        if ($headers->has('X-Request-Name')) {
+            return;
+        }
+        $headers->addHeaderLine('X-Request-Name', $name);
+
+        return $this;
     }
 
     public function get($path, array $data = [], array $headers = [])
@@ -277,6 +306,4 @@ final class Client
         $this->appendPath = (bool) $appendPath;
         return $this;
     }
-
-
 }

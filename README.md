@@ -14,6 +14,8 @@ Can be used with pure PHP or any PHP framework, like ZendFramework 2 and Zend-Ex
 * Zend ServiceManager >= 2.5
 * nocarrier/hal >= 0.9
 
+You can add the module [hermes-loslog](https://github.com/mt-olympus/hermes-loslog) to log the requests.
+
 ## Installation
 ### Using composer (recommended)
 
