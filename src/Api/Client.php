@@ -219,26 +219,35 @@ final class Client
         return $this->doRequest($path, $headers);
     }
 
-    public function post($path, array $data, array $headers = [])
+    public function post($path, $data, array $headers = [])
     {
+        if (is_array($data)) {
+            $data = json_encode($data, null, 100);
+        }
         $this->zendClient->setMethod('POST')
-                         ->setRawBody(json_encode($data));
+                         ->setRawBody($data);
 
         return $this->doRequest($path, $headers);
     }
 
-    public function put($path, array $data, array $headers = [])
+    public function put($path, $data, array $headers = [])
     {
+        if (is_array($data)) {
+            $data = json_encode($data, null, 100);
+        }
         $this->zendClient->setMethod('PUT')
-                         ->setRawBody(json_encode($data));
+                         ->setRawBody($data);
 
         return $this->doRequest($path, $headers);
     }
 
-    public function patch($path, array $data, array $headers = [])
+    public function patch($path, $data, array $headers = [])
     {
+        if (is_array($data)) {
+            $data = json_encode($data, null, 100);
+        }
         $this->zendClient->setMethod('PATCH')
-                         ->setRawBody(json_encode($data));
+                         ->setRawBody($data);
 
         return $this->doRequest($path, $headers);
     }
