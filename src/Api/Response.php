@@ -52,7 +52,7 @@ final class Response
                 $error->detail = 'An error occurred.';
             }
 
-            throw new RuntimeException($error->detail, $error->status);
+            throw new RuntimeException(json_encode($error, null, 100), $error->status);
         }
 
         if (!$this->httpResponse->getHeaders()->has('Content-Type')) {
@@ -75,7 +75,7 @@ final class Response
         } elseif ($contentType == 'application/hal+xml' || $contentType == 'application/xml') {
             $this->content = new Resource(Hal::fromXml($this->httpResponse->getBody(), $depth));
         } else {
-            throw new RuntimeException("Invalid content type during for response: $contentType.", 500);
+            throw new RuntimeException("Unable to handle content type '$contentType' for response: '{$this->httpResponse->getBody()}'.", 500);
         }
     }
 
