@@ -188,10 +188,34 @@ final class Client
         }
     }
 
+    public function incrementRequestDepth($request)
+    {
+        if (!is_object($request) || !method_exists($request, 'getHeader')) {
+            return;
+        }
+        $depth = 0;
+        $headers = $request->getHeaders();
+        if ($headers->has('X-Request-Depth')) {
+            $header = $request->getHeader('X-Request-Depth');
+            if (is_object($header)) {
+                $depth = $header->getFieldValue();
+            } else {
+                $depth = $header[0];
+            }
+        }
+        $depth++;
+
+        $headers = $this->zendClient->getRequest()->getHeaders();
+        if ($headers->has('X-Request-Depth')) {
+            $headers->removeHeader($headers->get('X-Request-Depth'));
+        }
+        $headers->addHeaderLine('X-Request-Depth', $depth);
+    }
+
     public function addRequestTime($time) {
         $headers = $this->zendClient->getRequest()->getHeaders();
         if ($headers->has('X-Request-Time')) {
-            return;
+            $headers->removeHeader($headers->get('X-Request-Time'));
         }
         $headers->addHeaderLine('X-Request-Time', sprintf('%2.2fms', $time));
 
