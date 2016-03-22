@@ -249,7 +249,7 @@ final class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('POST')
-                         ->setRawBody($data);
+                         ->setRawBody($data)->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
@@ -260,7 +260,7 @@ final class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PUT')
-                         ->setRawBody($data);
+                         ->setRawBody($data)->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
@@ -271,14 +271,14 @@ final class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PATCH')
-                         ->setRawBody($data);
+                         ->setRawBody($data)->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
 
     public function delete($path, array $headers = [])
     {
-        $this->zendClient->setMethod('DELETE');
+        $this->zendClient->setMethod('DELETE')->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
