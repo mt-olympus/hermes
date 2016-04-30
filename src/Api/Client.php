@@ -9,7 +9,7 @@ use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Http\Client as ZendHttpClient;
 use Ramsey\Uuid\Uuid;
 
-final class Client
+class Client
 {
     use EventManagerAwareTrait;
 
