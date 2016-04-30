@@ -40,6 +40,12 @@ final class Client
 
     private $appendPath = false;
 
+    /**
+     * Extra information. Provided by the client
+     * @var mixed
+     */
+    private $extra;
+
     public function __construct(
         ZendHttpClient $client = null,
         $serviceName = null,
@@ -339,4 +345,21 @@ final class Client
         $this->appendPath = (bool) $appendPath;
         return $this;
     }
+    /**
+     * @return $extra
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param mixed $extra
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
+        return $this;
+    }
+
 }
