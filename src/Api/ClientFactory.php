@@ -2,17 +2,19 @@
 
 namespace Hermes\Api;
 
-use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
 
 class ClientFactory implements FactoryInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('config');
+        $config = $container->get('config');
         $clientConfig = $config['hermes'];
 
         $client = new \Zend\Http\Client($clientConfig['uri'], $clientConfig['http_client']['options']);
@@ -23,5 +25,13 @@ class ClientFactory implements FactoryInterface
             $hermes->setAppendPath($clientConfig['append_path']);
         }
         return $hermes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
+        return $this($serviceLocator, ClientFactory::class);
     }
 }
