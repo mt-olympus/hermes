@@ -2,21 +2,21 @@
   "name" : "mt-olympus/hermes",
   "description" : "REST API Client using Hal",
   "require" : {
-    "php" : "^5.5|^7.0",
+    "php" : "^5.6 || ^7.0",
     "ext-json" : "*",
     "ext-mbstring" : "*",
-    "nocarrier/hal" : "~0.9",
-    "mt-olympus/cerberus" : "~1.0",
-    "zendframework/zend-modulemanager" : "~2.5",
-    "zendframework/zend-http" : "~2.4",
-    "zendframework/zend-servicemanager" : "~2.5",
-    "zendframework/zend-eventmanager" : "~2.5",
-    "ramsey/uuid" : "~3.0"
+    "nocarrier/hal" : "^0.9.12",
+    "mt-olympus/cerberus" : "^1.0.1",
+    "zendframework/zend-http" : "^2.5.4",
+    "zendframework/zend-servicemanager" : "^2.7 || ^3.0",
+    "zendframework/zend-eventmanager" : "^2.6 || ^3.0",
+    "ramsey/uuid" : "^3.4.1"
   },
   "require-dev" : {
     "satooshi/php-coveralls" : "dev-master",
     "squizlabs/php_codesniffer" : "^2.3",
-    "phpunit/phpunit" : "~4.8"
+    "phpunit/phpunit" : "^4.8 || ^5.4",
+    "zendframework/zend-modulemanager" : "^2.7.2"
   },
   "license" : "MIT",
   "keywords" : [ "api", "rest", "client", "zf2", "hal" ],
