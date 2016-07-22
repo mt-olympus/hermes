@@ -6,7 +6,7 @@
     "ext-json" : "*",
     "ext-mbstring" : "*",
     "nocarrier/hal" : "^0.9.12",
-    "mt-olympus/cerberus" : "^1.0.1",
+    "mt-olympus/cerberus" : "^1.1.0",
     "zendframework/zend-http" : "^2.5.4",
     "zendframework/zend-servicemanager" : "^2.7 || ^3.0",
     "zendframework/zend-eventmanager" : "^2.6 || ^3.0",
