@@ -286,6 +286,11 @@ class Client
     {
         $this->zendClient->setMethod('DELETE')->setParameterGet([]);
 
+        $oldHeaders = $this->zendClient->getRequest()->getHeaders();
+        if ($oldHeaders->has('Content-Type')) {
+            $oldHeaders->removeHeader($oldHeaders->get('Content-Type'));
+        }
+        
         return $this->doRequest($path, $headers);
     }
 
