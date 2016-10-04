@@ -24,6 +24,10 @@ class ClientFactory implements FactoryInterface
         if (isset($clientConfig['append_path'])) {
             $hermes->setAppendPath($clientConfig['append_path']);
         }
+        if (isset($clientConfig['collector'])) {
+            $collector = $container->get($config['collector']);
+            $collector->attach($hermes);
+        }
         return $hermes;
     }
 
