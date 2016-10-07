@@ -200,13 +200,25 @@ class Client
             return;
         }
         $depth = 0;
-        $headers = $request->getHeaders();
-        if ($headers->has('X-Request-Depth')) {
-            $header = $request->getHeader('X-Request-Depth');
-            if (is_object($header)) {
-                $depth = $header->getFieldValue();
-            } else {
-                $depth = $header[0];
+
+        if ($request instanceof \Zend\Stratigility\Http\Request) {
+            if ($request->hasHeader('X-Request-Depth')) {
+                $header = $request->getHeader('X-Request-Depth');
+                if (is_object($header)) {
+                    $depth = $header->getFieldValue();
+                } else {
+                    $depth = $header[0];
+                }
+            }
+        } else {
+            $headers = $request->getHeaders();
+            if ($headers->has('X-Request-Depth')) {
+                $header = $request->getHeader('X-Request-Depth');
+                if (is_object($header)) {
+                    $depth = $header->getFieldValue();
+                } else {
+                    $depth = $header[0];
+                }
             }
         }
         $depth++;
@@ -290,7 +302,7 @@ class Client
         if ($oldHeaders->has('Content-Type')) {
             $oldHeaders->removeHeader($oldHeaders->get('Content-Type'));
         }
-        
+
         return $this->doRequest($path, $headers);
     }
 
