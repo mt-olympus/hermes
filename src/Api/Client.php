@@ -166,7 +166,11 @@ class Client
 
     public function addRequestId($id = null) {
         if ($id == null) {
-            $id = Uuid::uuid4();
+            if (defined('REQUEST_ID')) {
+                $id = REQUEST_ID;
+            } else {
+                $id = Uuid::uuid4();
+            }
         }
 
         $headers = $this->zendClient->getRequest()->getHeaders();
