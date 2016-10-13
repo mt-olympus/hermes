@@ -2,7 +2,7 @@
 
 namespace Hermes\Api;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Interop\Container\ContainerInterface;
 
