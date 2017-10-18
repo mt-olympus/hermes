@@ -30,7 +30,7 @@ class ApiPaginator implements AdapterInterface
     public function getItems($offset, $itemCountPerPage)
     {
         if ($this->data == null) {
-            $ret = $this->client->get($this->url,$this->query);
+            $ret = $this->client->get($this->url, $this->query);
             $this->data = $ret->getData();
         }
         if (!isset($this->data[$this->collectionName])) {
@@ -45,7 +45,7 @@ class ApiPaginator implements AdapterInterface
     public function count($mode = null)
     {
         if ($this->data == null) {
-            $ret = $this->client->get($this->url,$this->query);
+            $ret = $this->client->get($this->url, $this->query);
             $this->data = $ret->getData();
         }
         if (!isset($this->data['total_items'])) {
@@ -53,5 +53,4 @@ class ApiPaginator implements AdapterInterface
         }
         return $this->data['total_items'];
     }
-
 }
