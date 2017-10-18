@@ -5,6 +5,7 @@ namespace Hermes\Api;
 use Cerberus\CerberusInterface;
 use Hermes\Exception\NotAvailableException;
 use Hermes\Exception\RuntimeException;
+use Zend\Diactoros\ServerRequest;
 use Zend\EventManager\EventManagerAwareTrait;
 use Zend\Http\Client as ZendHttpClient;
 use Ramsey\Uuid\Uuid;
@@ -60,7 +61,7 @@ class Client
     /**
      * Get the Zend\Http\Client instance.
      *
-     * @return Zend\Http\Client
+     * @return \Zend\Http\Client
      */
     public function getZendClient()
     {
@@ -106,8 +107,11 @@ class Client
     /**
      * Perform the request to api server.
      *
-     * @param String $path    Example: "/v1/endpoint"
-     * @param Array  $headers
+     * @param $path string                  Example: "/v1/endpoint"
+     * @param array $headers
+     * @return \Hermes\Resource\Resource
+     * @throws NotAvailableException
+     * @throws RuntimeException
      */
     private function doRequest($path, $headers = [])
     {
@@ -164,7 +168,8 @@ class Client
         return $content;
     }
 
-    public function addRequestId($id = null) {
+    public function addRequestId($id = null)
+    {
         if ($id == null) {
             if (defined('REQUEST_ID')) {
                 $id = REQUEST_ID;
@@ -205,14 +210,10 @@ class Client
         }
         $depth = 0;
 
-        if ($request instanceof \Zend\Stratigility\Http\Request) {
+        if ($request instanceof ServerRequest) {
             if ($request->hasHeader('X-Request-Depth')) {
                 $header = $request->getHeader('X-Request-Depth');
-                if (is_object($header)) {
-                    $depth = $header->getFieldValue();
-                } else {
-                    $depth = $header[0];
-                }
+                $depth = $header[0];
             }
         } else {
             $headers = $request->getHeaders();
@@ -234,7 +235,8 @@ class Client
         $headers->addHeaderLine('X-Request-Depth', $depth);
     }
 
-    public function addRequestTime($time) {
+    public function addRequestTime($time)
+    {
         $headers = $this->zendClient->getRequest()->getHeaders();
         if ($headers->has('X-Request-Time')) {
             $headers->removeHeader($headers->get('X-Request-Time'));
@@ -244,7 +246,8 @@ class Client
         return $this;
     }
 
-    public function addRequestName($name = null) {
+    public function addRequestName($name = null)
+    {
         if (empty($name)) {
             return;
         }
@@ -260,7 +263,8 @@ class Client
     public function get($path, array $data = [], array $headers = [])
     {
         $this->zendClient->setMethod('GET')
-                         ->setParameterGet($data);
+            ->setRawBody('')
+            ->setParameterGet($data);
 
         return $this->doRequest($path, $headers);
     }
@@ -271,7 +275,8 @@ class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('POST')
-                         ->setRawBody($data)->setParameterGet([]);
+            ->setRawBody($data)
+            ->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
@@ -282,7 +287,8 @@ class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PUT')
-                         ->setRawBody($data)->setParameterGet([]);
+            ->setRawBody($data)
+            ->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
@@ -293,14 +299,17 @@ class Client
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PATCH')
-                         ->setRawBody($data)->setParameterGet([]);
+            ->setRawBody($data)
+            ->setParameterGet([]);
 
         return $this->doRequest($path, $headers);
     }
 
     public function delete($path, array $headers = [])
     {
-        $this->zendClient->setMethod('DELETE')->setParameterGet([]);
+        $this->zendClient->setMethod('DELETE')
+            ->setRawBody('')
+            ->setParameterGet([]);
 
         $oldHeaders = $this->zendClient->getRequest()->getHeaders();
         if ($oldHeaders->has('Content-Type')) {
@@ -367,7 +376,7 @@ class Client
         return $this;
     }
     /**
-     * @return $extra
+     * @return mixed $extra
      */
     public function getExtra()
     {
@@ -375,12 +384,12 @@ class Client
     }
 
     /**
-     * @param mixed $extra
+     * @param $extra
+     * @return $this
      */
     public function setExtra($extra)
     {
         $this->extra = $extra;
         return $this;
     }
-
 }

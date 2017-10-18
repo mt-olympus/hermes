@@ -11,12 +11,12 @@ use Hermes\Resource\Resource;
 final class Response
 {
     /**
-     * @var Zend\Http\Client
+     * @var \Zend\Http\Client
      */
     private $httpClient;
 
     /**
-     * @var Zend\Http\Response
+     * @var \Zend\Http\Response
      */
     private $httpResponse;
 
@@ -26,10 +26,11 @@ final class Response
     private $content;
 
     /**
-     * Construtor.
-     *
-     * @param Zend\Http\Client   $client
-     * @param Zend\Http\Response $response
+     * Response constructor.
+     * @param ZendHttpClient $client
+     * @param ZendHttpResponse $response
+     * @param int $depth
+     * @throws RuntimeException
      */
     public function __construct(ZendHttpClient $client, ZendHttpResponse $response, $depth = 0)
     {
@@ -75,7 +76,10 @@ final class Response
         } elseif ($contentType == 'application/hal+xml' || $contentType == 'application/xml') {
             $this->content = new Resource(Hal::fromXml($this->httpResponse->getBody(), $depth));
         } else {
-            throw new RuntimeException("Unable to handle content type '$contentType' for response: '{$this->httpResponse->getBody()}'.", 500);
+            throw new RuntimeException(
+                "Unable to handle content type '$contentType' for response: '{$this->httpResponse->getBody()}'.",
+                500
+            );
         }
     }
 
