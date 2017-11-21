@@ -4,11 +4,6 @@ namespace Hermes\Resource;
 
 final class Paginator
 {
-    const PAGE_COUNT = 'page_count';
-    const PAGE_SIZE = 'page_size';
-    const TOTAL_ITEMS = 'total_items';
-    const PAGE = 'page';
-
     private $pageSize = 0;
     private $pageCount = 0;
     private $totalItems = 0;
@@ -17,40 +12,54 @@ final class Paginator
     public function __construct(array $data = null)
     {
         if (!empty($data)) {
-            $this->pageCount = (int) array_key_exists(self::PAGE_COUNT, $data) ? $data[self::PAGE_COUNT] : 0;
-            $this->pageSize = (int) array_key_exists(self::PAGE_SIZE, $data) ? $data[self::PAGE_SIZE] : 0;
-            $this->totalItems = (int) array_key_exists(self::TOTAL_ITEMS, $data) ? $data[self::TOTAL_ITEMS] : 0;
-            $this->page = (int) array_key_exists(self::PAGE, $data) ? $data[self::PAGE] : 1;
+            $this->pageCount = (int) ($data['_page_count'] ?? $data['page_count'] ?? 0);
+            $this->pageSize = (int) ($data['_page_size'] ?? $data['page_size'] ?? 0);
+            $this->totalItems = (int) ($data['_total_items'] ?? $data['total_items'] ?? 0);
+            $this->page = (int) ($data['_page'] ?? $data['page'] ?? 1);
         }
     }
 
-    public function setPageSize($input)
+    /**
+     * @param int $input
+     * @return Paginator
+     */
+    public function setPageSize(int $input) : self
     {
-        $input = (int) $input;
         $this->pageSize = $input;
-
         return $this;
     }
 
-    public function getPageSize()
+    /**
+     * @return int
+     */
+    public function getPageSize() : int
     {
         return $this->pageSize;
     }
 
-    public function setPageCount($input)
+    /**
+     * @param int $input
+     * @return Paginator
+     */
+    public function setPageCount(int $input) : self
     {
-        $input = (int) $input;
         $this->pageCount = $input;
-
         return $this;
     }
 
-    public function getPageCount()
+    /**
+     * @return int
+     */
+    public function getPageCount() : int
     {
         return $this->pageCount;
     }
 
-    public function setTotalItems($input)
+    /**
+     * @param int $input
+     * @return Paginator
+     */
+    public function setTotalItems(int $input) : self
     {
         $input = (int) $input;
         $this->totalItems = $input;
@@ -58,29 +67,45 @@ final class Paginator
         return $this;
     }
 
-    public function getTotalItems()
+    /**
+     * @return int
+     */
+    public function getTotalItems() : int
     {
         return $this->totalItems;
     }
 
-    public function getPage()
+    /**
+     * @return int
+     */
+    public function getPage() : int
     {
         return $this->page;
     }
 
-    public function setPage($page)
+    /**
+     * @param int $page
+     * @return Paginator
+     */
+    public function setPage(int $page) : self
     {
-        $this->page = (int) $page;
+        $this->page = $page;
 
         return $this;
     }
 
-    public function hasMorePages()
+    /**
+     * @return bool
+     */
+    public function hasMorePages() : bool
     {
         return $this->page < $this->pageCount;
     }
 
-    public function getNextPage()
+    /**
+     * @return int
+     */
+    public function getNextPage() : int
     {
         return ++$this->page;
     }
