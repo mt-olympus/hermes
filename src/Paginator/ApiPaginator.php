@@ -48,6 +48,6 @@ class ApiPaginator implements AdapterInterface
             $ret = $this->client->get($this->url, $this->query);
             $this->data = $ret->getData();
         }
-        return (int) ($data['_total_items'] ?? $data['total_items'] ?? 0);
+        return (int) ($this->data['_total_items'] ?? $this->data['total_items'] ?? 0);
     }
 }
