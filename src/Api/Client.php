@@ -269,47 +269,47 @@ class Client
         return $this->doRequest($path, $headers);
     }
 
-    public function post($path, $data, array $headers = [])
+    public function post($path, $data, array $headers = [], array $queryParams = [])
     {
         if (is_array($data)) {
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('POST')
             ->setRawBody($data)
-            ->setParameterGet([]);
+            ->setParameterGet($queryParams);
 
         return $this->doRequest($path, $headers);
     }
 
-    public function put($path, $data, array $headers = [])
+    public function put($path, $data, array $headers = [], array $queryParams = [])
     {
         if (is_array($data)) {
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PUT')
             ->setRawBody($data)
-            ->setParameterGet([]);
+            ->setParameterGet($queryParams);
 
         return $this->doRequest($path, $headers);
     }
 
-    public function patch($path, $data, array $headers = [])
+    public function patch($path, $data, array $headers = [], array $queryParams = [])
     {
         if (is_array($data)) {
             $data = json_encode($data, null, 100);
         }
         $this->zendClient->setMethod('PATCH')
             ->setRawBody($data)
-            ->setParameterGet([]);
+            ->setParameterGet($queryParams);
 
         return $this->doRequest($path, $headers);
     }
 
-    public function delete($path, array $headers = [])
+    public function delete($path, array $headers = [], array $queryParams = [])
     {
         $this->zendClient->setMethod('DELETE')
             ->setRawBody('')
-            ->setParameterGet([]);
+            ->setParameterGet($queryParams);
 
         $oldHeaders = $this->zendClient->getRequest()->getHeaders();
         if ($oldHeaders->has('Content-Type')) {
