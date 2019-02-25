@@ -56,20 +56,20 @@ final class Response
             throw new RuntimeException(json_encode($error, null, 100), $error->status);
         }
 
-        if (!$this->httpResponse->getHeaders()->has('Content-Type')) {
-            throw new RuntimeException("Missing 'Content-Type' header.", 500);
+        $contentType = '';
+
+        if ($this->httpResponse->getHeaders()->has('Content-Type')) {
+            $contentType = $this->httpResponse->getHeaders()
+                ->get('Content-Type')
+                ->getFieldValue();
+
+            $pos = strpos($contentType, ';');
+            if ($pos !== false) {
+                $contentType = substr($contentType, 0, $pos);
+            }
         }
 
-        $contentType = $this->httpResponse->getHeaders()
-            ->get('Content-Type')
-            ->getFieldValue();
-
-        $pos = strpos($contentType, ';');
-        if ($pos !== false) {
-            $contentType = substr($contentType, 0, $pos);
-        }
-
-        if (empty($this->httpResponse->getBody())) {
+        if (empty($contentType) || empty($this->httpResponse->getBody())) {
             $this->content = null;
         } elseif ($contentType == 'application/hal+json' || $contentType == 'application/json') {
             $this->content = new Resource(Hal::fromJson($this->httpResponse->getBody(), $depth));
