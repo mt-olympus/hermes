@@ -2,7 +2,7 @@
 
 namespace Hermes\Api;
 
-use Cerberus\CerberusInterface;
+use Los\Cerberus\CerberusInterface;
 use Hermes\Exception\NotAvailableException;
 use Hermes\Exception\RuntimeException;
 use Zend\Diactoros\ServerRequest;
