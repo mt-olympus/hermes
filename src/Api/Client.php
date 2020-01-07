@@ -5,9 +5,9 @@ namespace Hermes\Api;
 use Los\Cerberus\CerberusInterface;
 use Hermes\Exception\NotAvailableException;
 use Hermes\Exception\RuntimeException;
-use Zend\Diactoros\ServerRequest;
-use Zend\EventManager\EventManagerAwareTrait;
-use Zend\Http\Client as ZendHttpClient;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\EventManager\EventManagerAwareTrait;
+use Laminas\Http\Client as LaminasHttpClient;
 use Ramsey\Uuid\Uuid;
 
 class Client
@@ -20,7 +20,7 @@ class Client
     const TIMEOUT = 60;
 
     /**
-     * @var \Zend\Http\Client Instance
+     * @var \Laminas\Http\Client Instance
      */
     private $zendClient;
 
@@ -48,20 +48,20 @@ class Client
     private $extra;
 
     public function __construct(
-        ZendHttpClient $client = null,
+        LaminasHttpClient $client = null,
         $serviceName = null,
         $depth = 1
     ) {
-        $client = ($client instanceof ZendHttpClient) ? $client : new ZendHttpClient();
+        $client = ($client instanceof LaminasHttpClient) ? $client : new LaminasHttpClient();
         $this->zendClient = $client;
         $this->serviceName = $serviceName;
         $this->depth = (int) $depth;
     }
 
     /**
-     * Get the Zend\Http\Client instance.
+     * Get the Laminas\Http\Client instance.
      *
-     * @return \Zend\Http\Client
+     * @return \Laminas\Http\Client
      */
     public function getZendClient()
     {

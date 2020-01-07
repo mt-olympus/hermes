@@ -31,7 +31,7 @@ If using a framework that implements `container-interopt`, you can use the follo
 Copy the hermes.global.php.dist from this module to your application's config folder and make the necessary changes.
 
 For more information about the http-client options, please check the official documentation at
-[Zend\Http\Client options](http://framework.zend.com/manual/current/en/modules/zend.http.client.html#configuration).  
+[Laminas\Http\Client options](http://framework.zend.com/manual/current/en/modules/zend.http.client.html#configuration).  
 
 ```php
 'hermes' => [
@@ -42,7 +42,7 @@ For more information about the http-client options, please check the official do
             'timeout'       => 60,
             'sslverifypeer' => false,
             'keepalive'     => true,
-            'adapter'       => 'Zend\Http\Client\Adapter\Socket',
+            'adapter'       => 'Laminas\Http\Client\Adapter\Socket',
         ],
     ],
     'headers' => [
@@ -57,7 +57,7 @@ For more information about the http-client options, please check the official do
 ### Creating the client
 You can use the `Hermes\Api\ClientFactory` usign the above configuration or manually:
 ```php
-$httpClient = new Zend\Http\Client('http://127.0.0.1', []);
+$httpClient = new Laminas\Http\Client('http://127.0.0.1', []);
 $client = new Hermes\Apt\Client($httpClient, 10);
 ```
 
@@ -67,8 +67,8 @@ You can use the client with a circuit breaker to control failures and success an
 More information about cerberus on it's [own repository](https://github.com/mt-olympus/cerberus).
 
 ```php
-$httpClient = new Zend\Http\Client('http://127.0.0.1', []);
-$storage = Zend\Cache\StorageFactory\StorageFactory::factory([
+$httpClient = new Laminas\Http\Client('http://127.0.0.1', []);
+$storage = Laminas\Cache\StorageFactory\StorageFactory::factory([
             'adapter' => [
                 'name' => 'memory',
                 'options' => [
@@ -174,7 +174,7 @@ $page = $this->getRequest()->getQuery('page', 1);
 $sort = $this->getRequest()->getQuery('sort', 'name');
 $order = $this->getRequest()->getQuery('order', 'asc');
 
-$paginator = new \Zend\Paginator\Paginator(new \Hermes\Paginator\ApiPaginator($client, $url, 'album', [
+$paginator = new \Laminas\Paginator\Paginator(new \Hermes\Paginator\ApiPaginator($client, $url, 'album', [
     'page'=>$page,
     'sort'=>$sort,
     'order' => $order,
@@ -187,7 +187,7 @@ $paginator->setPageRange($this->paginatorRange);
 ### Events
 
 The client triggers an event before (request.pre) and after (request.post) a request and you can attach to them.
-More info about events on [zend-eventmanager](https://github.com/zendframework/zend-eventmanager).
+More info about events on [zend-eventmanager](https://github.com/laminas/laminas-eventmanager).
 
 ### Request Id
 

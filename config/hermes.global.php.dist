@@ -12,7 +12,7 @@ return [
                 //'timeout'       => 60,
                 //'sslverifypeer' => false,
                 //'keepalive'     => true,
-                //'adapter'       => 'Zend\Http\Client\Adapter\Socket',
+                //'adapter'       => 'Laminas\Http\Client\Adapter\Socket',
             ],
         ],
     ],

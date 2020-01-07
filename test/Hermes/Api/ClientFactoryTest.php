@@ -2,8 +2,8 @@
 
 namespace Hermes\Api;
 
-use Zend\ServiceManager\ServiceManager;
-use Zend\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Config;
 
 class ClientFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,7 +45,7 @@ class ClientFactoryTest extends \PHPUnit_Framework_TestCase
                     // 'timeout' => 60,
                     // 'sslverifypeer' => false,
                     // 'keepalive' => true,
-                    // 'adapter' => 'Zend\Http\Client\Adapter\Socket',
+                    // 'adapter' => 'Laminas\Http\Client\Adapter\Socket',
 
                 ],
             ],

@@ -2,9 +2,9 @@
 
 namespace Hermes\Api;
 
-use Zend\Http\Client;
-use Zend\Http\Response as ZendResponse;
-use Zend\Http\Headers;
+use Laminas\Http\Client;
+use Laminas\Http\Response as ZendResponse;
+use Laminas\Http\Headers;
 use Hermes\Exception\RuntimeException;
 use Hermes\Resource\Resource;
 use Nocarrier\Hal;

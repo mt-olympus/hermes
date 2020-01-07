@@ -2,8 +2,8 @@
 
 namespace Hermes\Api;
 
-use Zend\Http\Client as ZendHttpClient;
-use Zend\Http\Response as ZendHttpResponse;
+use Laminas\Http\Client as LaminasHttpClient;
+use Laminas\Http\Response as LaminasHttpResponse;
 use Hermes\Exception\RuntimeException;
 use Nocarrier\Hal;
 use Hermes\Resource\Resource;
@@ -11,12 +11,12 @@ use Hermes\Resource\Resource;
 final class Response
 {
     /**
-     * @var \Zend\Http\Client
+     * @var \Laminas\Http\Client
      */
     private $httpClient;
 
     /**
-     * @var \Zend\Http\Response
+     * @var \Laminas\Http\Response
      */
     private $httpResponse;
 
@@ -27,12 +27,12 @@ final class Response
 
     /**
      * Response constructor.
-     * @param ZendHttpClient $client
-     * @param ZendHttpResponse $response
+     * @param LaminasHttpClient $client
+     * @param LaminasHttpResponse $response
      * @param int $depth
      * @throws RuntimeException
      */
-    public function __construct(ZendHttpClient $client, ZendHttpResponse $response, $depth = 0)
+    public function __construct(LaminasHttpClient $client, LaminasHttpResponse $response, $depth = 0)
     {
         $this->httpClient = $client;
         $this->httpResponse = $response;

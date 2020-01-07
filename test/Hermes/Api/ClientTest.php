@@ -5,9 +5,9 @@ namespace Hermes\Api;
 use Cerberus\Cerberus;
 use Hermes\Exception\RuntimeException;
 use Hermes\Resource\Resource;
-use Zend\Cache\StorageFactory;
-use Zend\Http\Client as ZendClient;
-use Zend\Http\Exception\RuntimeException as ZendHttpRuntimeException;
+use Laminas\Cache\StorageFactory;
+use Laminas\Http\Client as ZendClient;
+use Laminas\Http\Exception\RuntimeException as LaminasHttpRuntimeException;
 use Hermes\Exception\NotAvailableException;
 
 /**
@@ -64,7 +64,7 @@ RESP;
      */
     public function testConstruct()
     {
-        $this->assertInstanceOf(\Zend\Http\Client::class, $this->object->getZendClient());
+        $this->assertInstanceOf(\Laminas\Http\Client::class, $this->object->getZendClient());
         $this->assertSame(10, $this->object->getDepth());
     }
 
@@ -74,7 +74,7 @@ RESP;
      */
     public function testSetGetZendClient()
     {
-        $client = new \Zend\Http\Client('http://127.0.0.1', []);
+        $client = new \Laminas\Http\Client('http://127.0.0.1', []);
         $this->object->setZendClient($client);
         $this->assertSame($client, $this->object->getZendClient());
     }
@@ -84,9 +84,9 @@ RESP;
      */
     public function testSetZendClientWithoutHost()
     {
-        $client = new \Zend\Http\Client();
+        $client = new \Laminas\Http\Client();
 
-        $this->setExpectedException(ZendHttpRuntimeException::class);
+        $this->setExpectedException(LaminasHttpRuntimeException::class);
         $this->object->setZendClient($client);
     }
 
@@ -246,7 +246,7 @@ RESP;
         $cerberus = new Cerberus($storage, 2, 2);
         $this->object->setCircuitBreaker($cerberus);
 
-        $client = new \Zend\Http\Client('http://127.0.0.1:1', []);
+        $client = new \Laminas\Http\Client('http://127.0.0.1:1', []);
         $this->object->setZendClient($client);
 
         $this->setExpectedException(RuntimeException::class);
@@ -283,7 +283,7 @@ RESP;
         $cerberus->reportFailure();
         $this->object->setCircuitBreaker($cerberus);
 
-        $client = new \Zend\Http\Client('http://127.0.0.1:1', []);
+        $client = new \Laminas\Http\Client('http://127.0.0.1:1', []);
         $this->object->setZendClient($client);
 
         $this->setExpectedException(NotAvailableException::class);

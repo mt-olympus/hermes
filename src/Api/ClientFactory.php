@@ -2,22 +2,22 @@
 
 namespace Hermes\Api;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\FactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 use Interop\Container\ContainerInterface;
 
 class ClientFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
+     * @see \Laminas\ServiceManager\Factory\FactoryInterface::__invoke()
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
         $clientConfig = $config['hermes'];
 
-        $client = new \Zend\Http\Client($clientConfig['uri'], $clientConfig['http_client']['options']);
+        $client = new \Laminas\Http\Client($clientConfig['uri'], $clientConfig['http_client']['options']);
         $client->getRequest()->getHeaders()->addHeaders($clientConfig['headers']);
 
         $hermes = new Client(
