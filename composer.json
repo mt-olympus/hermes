@@ -11,8 +11,7 @@
         "laminas/laminas-diactoros": "^2.0",
         "laminas/laminas-eventmanager": "^3.2",
         "laminas/laminas-http": "^2.7",
-        "laminas/laminas-servicemanager": "^3.3",
-        "laminas/laminas-dependency-plugin": "^0.2"
+        "laminas/laminas-servicemanager": "^3.3"
     },
     "license": "MIT",
     "keywords": [
