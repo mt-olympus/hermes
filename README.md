@@ -8,10 +8,9 @@ Can be used with pure PHP or any PHP framework, like ZendFramework 2 and Zend-Ex
 
 ## Requirements
 
-* PHP >= 5.6
-* Zend Http >= 2.4
-* Zend ModuleManager >= 2.5
-* Zend ServiceManager >= 2.5
+* PHP >= 7.2
+* Laminas Http >= 2.4
+* Laminas  ServiceManager >= 2.5
 * nocarrier/hal >= 0.9
 
 You can add the module [hermes-loslog](https://github.com/mt-olympus/hermes-loslog) to log the requests.

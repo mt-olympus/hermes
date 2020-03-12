@@ -2,16 +2,11 @@
 
 namespace Hermes\Api;
 
-use Laminas\ServiceManager\FactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
-class ClientFactory implements FactoryInterface
+class ClientFactory
 {
-    /**
-     * {@inheritDoc}
-     * @see \Laminas\ServiceManager\Factory\FactoryInterface::__invoke()
-     */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
