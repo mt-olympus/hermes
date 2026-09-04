@@ -1,5 +1,13 @@
 # Hermes
 
+> [!WARNING]
+> ## Archived
+> Hermes is no longer maintained and will receive no further releases. It
+> remains available on Packagist for existing installations. Its PHP 7,
+> Laminas, HAL, and Olympus-service dependencies are retired; migrate new
+> integrations to a maintained HTTP client and an explicit current API
+> representation.
+
 Hermes is a php library to consume Restful APIs using Hal, like [Apigility](http://apigility.org).
 
 It is the main IPC method for other [Olympus](https://github.com/mt-olympus/Olympus) services. 
